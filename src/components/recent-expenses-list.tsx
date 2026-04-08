@@ -42,8 +42,9 @@ export function RecentExpensesList({
 
       {!loading && expenses.length === 0 ? (
         <div className="mt-8 rounded-[28px] border border-dashed border-[rgba(31,42,34,0.14)] bg-white/70 p-6 text-sm leading-7 text-[color:var(--muted)]">
-          Nenhuma despesa cadastrada ainda. Use o formulario manual para criar o
-          primeiro lancamento e acompanhar a sincronizacao em tempo real.
+          Nenhuma despesa cadastrada ainda. Use o formulario manual ou o fluxo
+          de upload de nota fiscal para criar o primeiro lancamento e
+          acompanhar a sincronizacao em tempo real.
         </div>
       ) : null}
 

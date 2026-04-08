@@ -5,7 +5,7 @@ import { useState } from "react";
 export function CameraScanPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [placeholderMessage, setPlaceholderMessage] = useState(
-    "Aguardando implementacao da camera e do OCR pelos alunos.",
+    "Aguardando implementacao da camera e do reaproveitamento do fluxo de OCR pelos alunos.",
   );
 
   function handleOpenPanel() {
@@ -13,13 +13,13 @@ export function CameraScanPanel() {
   }
 
   function handleSimulatedCapture() {
-    // TODO: ALUNOS - Implementar acesso à API de mediaDevices para ativar a câmera do dispositivo.
-    // TODO: ALUNOS - Tratar permissões do navegador, iniciar o stream de vídeo e controlar o encerramento da captura.
-    // TODO: ALUNOS - Implementar extração de valores da imagem.
-    // TODO: ALUNOS - Mapear os dados extraídos para título, valor, data e categoria antes de salvar no Firestore.
+    // TODO implement: acessar mediaDevices e abrir o stream de video.
+    // TODO implement: tratar permissoes do navegador e encerrar o stream com seguranca.
+    // TODO implement: capturar um frame e enviar a imagem para /api/receipt-extraction.
+    // TODO implement: reaproveitar o mesmo mapeamento de OCR usado no fluxo de upload.
 
     setPlaceholderMessage(
-      "Esta area representa o ponto de extensao para captura em camera e OCR da nota fiscal.",
+      "Esta area representa o ponto de extensao para captura em camera e OCR da nota fiscal reaproveitando a trilha de upload.",
     );
   }
 
@@ -29,12 +29,12 @@ export function CameraScanPanel() {
         <div>
           <p className="section-eyebrow">Cadastro via camera</p>
           <h2 className="mt-3 text-2xl font-semibold text-[color:var(--foreground)]">
-            Estrutura vazia para os alunos
+            Etapa posterior ao upload
           </h2>
         </div>
         <p className="text-sm leading-7 text-[color:var(--muted)]">
-          O componente abaixo abre um espaco de simulacao para a futura
-          integracao com camera e reconhecimento de texto.
+          O componente abaixo representa a evolucao do fluxo de upload. A ideia
+          e reutilizar a extracao da nota fiscal com captura ao vivo da camera.
         </p>
       </div>
 
@@ -81,8 +81,8 @@ export function CameraScanPanel() {
                 <p className="font-medium text-white">Fluxo sugerido</p>
                 <p>1. Pedir permissao de camera ao navegador.</p>
                 <p>2. Exibir a nota em tempo real para o usuario.</p>
-                <p>3. Processar a imagem com OCR.</p>
-                <p>4. Popular automaticamente os campos do formulario.</p>
+                <p>3. Capturar o frame e reaproveitar `/api/receipt-extraction`.</p>
+                <p>4. Popular automaticamente os campos antes de salvar.</p>
               </div>
             </div>
           </div>

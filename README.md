@@ -1,23 +1,45 @@
 # Fluxo Financeiro
 
-Aplicacao base de controle de despesas financeiras criada com Next.js App Router, TailwindCSS e Firebase Firestore. A interface foi organizada para servir como base de aula, com dashboard responsivo, formulario manual, area reservada para escaneamento via camera e testes iniciais com Jest.
+Aplicacao base para um trabalho pratico de Qualidade de Software, TestOps e deploy controlado por Jenkins. O template usa Next.js App Router, React 19, TailwindCSS 4 e Firebase Firestore, mas nao entrega a solucao final: ele deixa os pontos criticos sinalizados com `TODO implement` para que a turma complete a atividade.
 
-## Tecnologias
+## O que ja vem pronto
 
-- Next.js 16 com App Router
-- React 19
-- TailwindCSS 4
-- Firebase Firestore
-- Jest + React Testing Library
+- Dashboard responsivo com resumo financeiro e lista de despesas.
+- Formulario manual funcional para registrar despesas no Firestore.
+- Nova trilha de upload de nota fiscal por foto ou PDF antes da etapa de camera.
+- Etapa futura de camera/OCR reservada para evolucao da atividade.
+- Scaffold de `Jenkinsfile` com os estagios obrigatorios do trabalho.
+- Testes unitarios iniciais com Jest e React Testing Library.
+
+## O que os alunos precisam concluir
+
+- Finalizar a extracao de `nome do estabelecimento` e `valor` a partir da nota fiscal enviada.
+- Persistir a saida extraida como despesa no Firestore.
+- Reaproveitar a mesma trilha de extracao no fluxo de camera.
+- Completar a integracao Jenkins -> GitHub -> Vercel sem expor secrets.
+- Ativar e fazer passar os testes marcados com `test.skip` no fluxo planejado do trabalho.
+
+## Arquivos com `TODO implement`
+
+- `Jenkinsfile`
+- `src/components/receipt-upload-panel.tsx`
+- `src/services/receipt-upload.ts`
+- `src/app/api/receipt-extraction/route.ts`
+- `src/components/camera-scan-panel.tsx`
+- `src/__tests__/receipt-upload.test.ts`
+- `src/__tests__/camera-scan-panel.test.tsx`
+- `docs/TODO_IMPLEMENTATION_MAP.md`
 
 ## Estrutura
 
 ```text
+docs/
 src/
   app/
   components/
   services/
   __tests__/
+Jenkinsfile
 ```
 
 ## Como rodar
@@ -28,28 +50,31 @@ src/
 npm install
 ```
 
-2. Crie um arquivo `.env.local` usando `.env.example` como base e preencha as credenciais do Firebase:
+2. Crie um arquivo `.env.local` usando `.env.example` como base:
 
 ```bash
 cp .env.example .env.local
 ```
 
-3. Rode a aplicacao:
+3. Preencha as variaveis do Firebase e, se a sua turma optar por OCR externo, as variaveis server-side do provedor escolhido.
+
+4. Rode a aplicacao:
 
 ```bash
 npm run dev
 ```
 
-4. Execute lint e testes:
+5. Execute os checks locais:
 
 ```bash
 npm run lint
 npm run test
+npm run build
 ```
 
 ## Firebase
 
-O projeto espera as seguintes variaveis de ambiente:
+O projeto espera as seguintes variaveis de ambiente publicas:
 
 - `NEXT_PUBLIC_FIREBASE_API_KEY`
 - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
@@ -60,16 +85,20 @@ O projeto espera as seguintes variaveis de ambiente:
 
 As despesas sao gravadas na colecao `expenses`.
 
-## Vercel
+## OCR e Upload de Nota
 
-O projeto esta pronto para deploy na Vercel:
+O fluxo novo de upload aceita PDF e imagens e leva o arquivo ate a rota `src/app/api/receipt-extraction/route.ts`. A base atual valida o arquivo, exibe feedback na interface e deixa a extracao real como atividade dos alunos.
 
-- `vercel.json` define o framework como `nextjs`
-- `.env.example` facilita o cadastro das variaveis no painel da Vercel
-- Scripts de `build`, `start`, `lint` e `test` ja estao configurados
+## Jenkins e Vercel
+
+- `Jenkinsfile` ja contem os estagios `Checkout`, `Install`, `Unit Tests`, `Build` e `Deploy Vercel`.
+- O bloco de deploy foi mantido como scaffold com `TODO implement` para que a turma configure credentials e a estrategia final de publicacao.
+- `vercel.json` ja identifica o projeto como `nextjs`.
 
 ## Testes incluidos
 
-- Validacao do formulario manual quando os campos obrigatorios estao vazios
-- Envio do formulario manual com payload normalizado e limpeza dos campos
-- Esqueleto `test.skip` para o fluxo futuro de camera/OCR
+- Validacao do formulario manual quando os campos obrigatorios estao vazios.
+- Envio do formulario manual com payload normalizado e limpeza dos campos.
+- Validacao do fluxo de upload de nota fiscal.
+- Esqueleto `test.skip` para a extracao OCR por upload.
+- Esqueleto `test.skip` para a captura pela camera.

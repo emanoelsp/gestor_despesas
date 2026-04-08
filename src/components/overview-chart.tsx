@@ -40,7 +40,7 @@ export function OverviewChart({
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-7 text-[color:var(--muted)]">
             Um comparativo simples para apoiar as aulas sobre leitura de dados,
-            integracao com o Firestore e evolucao futura com OCR.
+            integracao com o Firestore e evolucao do OCR por upload e camera.
           </p>
         </div>
 

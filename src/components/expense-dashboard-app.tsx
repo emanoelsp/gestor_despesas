@@ -4,6 +4,7 @@ import { CameraScanPanel } from "@/components/camera-scan-panel";
 import { ManualExpenseForm } from "@/components/manual-expense-form";
 import { OverviewChart } from "@/components/overview-chart";
 import { RecentExpensesList } from "@/components/recent-expenses-list";
+import { ReceiptUploadPanel } from "@/components/receipt-upload-panel";
 import { SummaryCard } from "@/components/summary-card";
 import { demoMonthlyIncome } from "@/services/expense-types";
 import { formatCurrency } from "@/services/formatters";
@@ -47,13 +48,13 @@ export function ExpenseDashboardApp() {
               <div className="space-y-3">
                 <h1 className="max-w-2xl text-4xl leading-tight font-semibold text-[color:var(--foreground)] sm:text-5xl">
                   Controle as despesas da equipe com uma base pronta para
-                  Firebase, GitHub e Vercel.
+                  Firebase, GitHub, Jenkins e Vercel.
                 </h1>
                 <p className="max-w-2xl text-sm leading-7 text-[color:var(--muted)] sm:text-base">
-                  O dashboard reune o resumo financeiro, o cadastro manual e o
-                  espaco reservado para o escaneamento de notas fiscais por
-                  camera. A persistencia fica preparada para o Firestore em
-                  tempo real.
+                  O dashboard reune o resumo financeiro, o cadastro manual, a
+                  nova trilha de upload de notas fiscais e o espaco reservado
+                  para evolucao futura com camera. A persistencia fica
+                  preparada para o Firestore em tempo real.
                 </p>
               </div>
             </div>
@@ -152,6 +153,10 @@ export function ExpenseDashboardApp() {
 
           <aside className="space-y-6">
             <ManualExpenseForm
+              isSubmitting={isSubmitting}
+              onSubmitExpense={addExpense}
+            />
+            <ReceiptUploadPanel
               isSubmitting={isSubmitting}
               onSubmitExpense={addExpense}
             />
