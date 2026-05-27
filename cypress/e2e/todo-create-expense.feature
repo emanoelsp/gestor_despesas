@@ -14,32 +14,25 @@
 Feature: Criação de saída manual no Firestore
 
   Background:
-    # TODO implement: iniciar o app com variáveis Firebase válidas no ambiente de teste
     Given que acesso a pagina inicial
 
-  @todo
   Scenario: Salva uma saida manual com dados validos e exibe na lista
-    # TODO implement: preencher título com "Mercado semanal"
-    # TODO implement: preencher valor com "150.00"
-    # TODO implement: selecionar categoria "Alimentacao"
-    # TODO implement: clicar em "Salvar despesa"
-    # TODO implement: verificar que "Mercado semanal" aparece na lista de lançamentos recentes
-    # TODO implement: verificar que o card "Despesas" foi atualizado com o novo total
-    Given pendente de implementacao
-    Then pendente de implementacao
+    When preencho o título com "Mercado semanal"
+    And preencho o valor com "150.00"
+    And seleciono a categoria "Alimentação"
+    And clico em "Salvar despesa"
+    Then vejo "Mercado semanal" na lista de lançamentos recentes
+    And o card "Despesas" é atualizado com o novo total
 
-  @todo
   Scenario: Exibe confirmacao e limpa o formulario apos salvar
-    # TODO implement: preencher e submeter o formulário
-    # TODO implement: verificar mensagem "Despesa cadastrada com sucesso."
-    # TODO implement: verificar que os campos título e valor estão em branco
-    Given pendente de implementacao
-    Then pendente de implementacao
+    When preencho o título com "Farmácia"
+    And preencho o valor com "50.00"
+    And seleciono a categoria "Saúde"
+    And clico em "Salvar despesa"
+    Then vejo a mensagem "Despesa cadastrada com sucesso."
+    And os campos título e valor estão em branco
 
-  @todo
   Scenario: Permite excluir uma saida existente da lista
-    # TODO implement: verificar que o botão de exclusão está visível na lista
-    # TODO implement: clicar no botão de excluir da despesa
-    # TODO implement: verificar que a despesa foi removida da lista sem recarregar
-    Given pendente de implementacao
-    Then pendente de implementacao
+    Given que existe uma despesa "Padaria" na lista
+    When clico no botão de excluir da despesa "Padaria"
+    Then a despesa "Padaria" não deve mais aparecer na lista
