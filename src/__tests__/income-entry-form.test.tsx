@@ -1,3 +1,4 @@
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { IncomeEntryForm } from "@/components/income-entry-form";
@@ -16,7 +17,7 @@ describe("IncomeEntryForm", () => {
     ).toBeInTheDocument();
   });
 
-  test.skip(
+  test(
     "TODO implement: valida e envia a entrada quando a feature estiver concluida",
     async () => {
       const user = userEvent.setup();
@@ -28,7 +29,7 @@ describe("IncomeEntryForm", () => {
         screen.getByLabelText(/descrição da entrada/i),
         "Pagamento do cliente",
       );
-      await user.type(screen.getByLabelText(/valor da entrada/i), "500");
+      await user.type(screen.getByLabelText(/valor/i), "500");
       await user.click(screen.getByRole("button", { name: /salvar entrada/i }));
 
       expect(onSubmitIncomeEntry).toHaveBeenCalledWith({

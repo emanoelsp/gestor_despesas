@@ -149,7 +149,7 @@ export function ManualExpenseForm({
           .
         </p>
 
-        <form className="space-y-3.5" onSubmit={handleSubmit}>
+        <form className="space-y-3.5" onSubmit={handleSubmit} noValidate>
           <div>
             <label className="field-label" htmlFor="title">
               Título da despesa
