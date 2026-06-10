@@ -4,6 +4,10 @@ Given("que acesso a pagina inicial", () => {
   cy.visit("/");
 });
 
+Given("o saldo atual exibe {string}", (saldo: string) => {
+  cy.contains("Saldo").parent().contains(saldo);
+});
+
 Then("vejo o texto {string}", (text: string) => {
   cy.contains(text).should("be.visible");
 });
