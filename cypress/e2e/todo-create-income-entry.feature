@@ -13,32 +13,36 @@
 Feature: Criação de entrada financeira no Firestore
 
   Background:
-    # TODO implement: iniciar o app com variáveis Firebase válidas no ambiente de teste
     Given que acesso a pagina inicial
 
-  @todo
   Scenario: Salva uma entrada e atualiza o card de entradas
-    # TODO implement: preencher descrição com "Salário de abril"
-    # TODO implement: preencher valor com "5000"
-    # TODO implement: selecionar origem "Salario"
-    # TODO implement: clicar em "Salvar entrada"
-    # TODO implement: verificar que o card "Entradas" exibe o novo total
-    # TODO implement: verificar que o saldo estimado aumentou
-    Given pendente de implementacao
-    Then pendente de implementacao
+    Then seleciono a aba "Entradas"
+    When preencho o campo "Descrição da entrada" com "Salário de abril"
+    And preencho o campo "Valor (R$)" com "100"
+    And preencho a "Data" com uma data válida
+    And seleciono a categoria "Salario"
+    Then clico no botão "SALVAR ENTRADA"
+    And o contador de "Entradas" deve ter o valor "100,00"
+    Then a mensagem "Entrada cadastrada com sucesso." é exibida
+    And o campo "Descrição da entrada" deve limpar
+    And o campo "Valor (R$)" deve limpar
+    Then recarregar a página
+    And o contador de "Entradas" deve ter o valor "100,00"
+  
+  Scenario: Salva uma saida e atualiza o card de saidas
+    Then seleciono a aba "Saída Manual"
+    When preencho o campo "Título da despesa" com "Mercado semanal"
+    And preencho o campo "Valor (R$)" com "100"
+    And preencho a "Data" com uma data válida
+    And seleciono a categoria "Alimentacao"
+    Then clico no botão "SALVAR DESPESA"
+    And o contador de "Despesas" deve ter o valor "100,00"
+    Then a mensagem "Despesa cadastrada com sucesso." é exibida
+    And o campo "Título da despesa" deve limpar
+    And o campo "Valor (R$)" deve limpar
+    Then recarregar a página
+    And o contador de "Despesas" deve ter o valor "100,00"
 
-  @todo
-  Scenario: Exibe confirmacao e reseta o formulario apos salvar
-    # TODO implement: submeter a entrada com dados válidos
-    # TODO implement: verificar mensagem "Entrada cadastrada com sucesso."
-    # TODO implement: verificar que os campos descrição e valor estão limpos
-    Given pendente de implementacao
-    Then pendente de implementacao
-
-  @todo
-  Scenario: Entradas persistidas aparecem apos recarregar a pagina
-    # TODO implement: salvar uma entrada via formulário
-    # TODO implement: chamar cy.reload() para recarregar a página
-    # TODO implement: verificar que o card "Entradas" ainda reflete o valor salvo
-    Given pendente de implementacao
-    Then pendente de implementacao
+  Scenario: Excluir uma despesa
+    Then exclui a despesa "Mercado semanal"
+    Then verifica se a lista de despesas está vazia
