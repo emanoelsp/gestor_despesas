@@ -5,6 +5,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  addDoc,
 } from "firebase/firestore";
 import { getFirestoreDatabase, getMissingFirebaseEnvironmentVariables } from "@/services/firebase";
 import type { Expense, ExpenseInput } from "@/services/expense-types";
@@ -33,15 +34,39 @@ function getExpensesCollection() {
   return collection(database, expensesCollectionName);
 }
 
-export async function createExpense(expenseInput: ExpenseInput) {
-  void expenseInput;
+export async function createExpense(expenseInput: ExpenseInput): Promise<Expense> {
+  // Validar regras de negócio para saídas manuais e saídas por OCR.
+  if (!expenseInput.title || !expenseInput.title.trim()) {
+    throw new Error("Informe o título da despesa.");
+  }
+  if (typeof expenseInput.amount !== "number" || Number.isNaN(expenseInput.amount) || expenseInput.amount <= 0) {
+    throw new Error("Digite um valor maior que zero.");
+  }
+  if (!expenseInput.category || !expenseInput.category.trim()) {
+    throw new Error("Selecione uma categoria.");
+  }
+  if (!expenseInput.date) {
+    throw new Error("Informe a data da compra.");
+  }
 
-  // TODO implement: validar regras de negócio para saídas manuais e saídas por OCR.
-  // TODO implement: persistir a despesa no Firestore mantendo createdAt para ordenação.
-  // TODO implement: retornar o documento criado para refletir no dashboard.
-  throw new Error(
-    "TODO implement: conclua a feature de saídas antes de salvar no Firestore.",
-  );
+  // Persistir a despesa no Firestore mantendo createdAt para ordenação.
+  const expensesCollection = getExpensesCollection();
+  const documentReference = await addDoc(expensesCollection, {
+    amount: Number(expenseInput.amount),
+    category: expenseInput.category,
+    date: expenseInput.date,
+    title: expenseInput.title.trim(),
+    createdAt: new Date().toISOString(),
+  });
+
+  // Retornar o documento criado para refletir no dashboard.
+  return {
+    id: documentReference.id,
+    amount: Number(expenseInput.amount),
+    category: expenseInput.category,
+    date: expenseInput.date,
+    title: expenseInput.title.trim(),
+  };
 }
 
 export async function deleteExpense(id: string) {

@@ -11,35 +11,53 @@
 #   - Despesa excluída desaparece da lista em tempo real
 #   - Valor negativo ou zero continua bloqueado mesmo com Firestore ativo
 
-Feature: Criação de saída manual no Firestore
+Feature: Persistência de saídas manuais no Firestore
 
   Background:
-    # TODO implement: iniciar o app com variáveis Firebase válidas no ambiente de teste
     Given que acesso a pagina inicial
+    Then seleciono a aba "Saída Manual"
 
-  @todo
-  Scenario: Salva uma saida manual com dados validos e exibe na lista
-    # TODO implement: preencher título com "Mercado semanal"
-    # TODO implement: preencher valor com "150.00"
-    # TODO implement: selecionar categoria "Alimentacao"
-    # TODO implement: clicar em "Salvar despesa"
-    # TODO implement: verificar que "Mercado semanal" aparece na lista de lançamentos recentes
-    # TODO implement: verificar que o card "Despesas" foi atualizado com o novo total
-    Given pendente de implementacao
-    Then pendente de implementacao
+  Scenario: Despesa salva aparece na lista "Últimas despesas" sem recarregar a página
+    When preencho o campo "Título da despesa" com "Mercado semanal"
+    And preencho o campo "Valor (R$)" com "150"
+    And preencho a "Data da compra" com uma data válida
+    And seleciono a categoria "Alimentacao"
+    Then clico no botão "SALVAR DESPESA"
+    Then a despesa "Mercado semanal" no valor de "R$ 150" deve aparecer imediatamente na lista "Últimas despesas"
 
-  @todo
-  Scenario: Exibe confirmacao e limpa o formulario apos salvar
-    # TODO implement: preencher e submeter o formulário
-    # TODO implement: verificar mensagem "Despesa cadastrada com sucesso."
-    # TODO implement: verificar que os campos título e valor estão em branco
-    Given pendente de implementacao
-    Then pendente de implementacao
+  Scenario: Saldo estimado diminui após salvar a despesa
+    Given o saldo atual exibe "R$ 8.200,00"
+    When preencho o campo "Título da despesa" com "Mercado semanal"
+    And preencho o campo "Valor (R$)" com "200"
+    And preencho a "Data da compra" com uma data válida
+    And seleciono a categoria "Alimentacao"
+    Then clico no botão "SALVAR DESPESA"
+    And o contador de "Despesas" deve ter o valor "200,00"
+    And o saldo atual exibe "R$ 8.000,00"
 
-  @todo
-  Scenario: Permite excluir uma saida existente da lista
-    # TODO implement: verificar que o botão de exclusão está visível na lista
-    # TODO implement: clicar no botão de excluir da despesa
-    # TODO implement: verificar que a despesa foi removida da lista sem recarregar
-    Given pendente de implementacao
-    Then pendente de implementacao
+  Scenario: Formulário é limpo após o envio bem-sucedido
+    When preencho o campo "Título da despesa" com "Mercado semanal"
+    And preencho o campo "Valor (R$)" com "200"
+    And preencho a "Data da compra" com uma data válida
+    And seleciono a categoria "Alimentacao"
+    Then clico no botão "SALVAR DESPESA"
+    Then o campo "Título da despesa" deve voltar para "Ex.:Mercado semanal"
+    And o campo "Valor (R$)" deve voltar para "0,00"
+    And o campo "Categoria" deve voltar para "Alimentacao"
+
+  Scenario: Mensagem de confirmação "Despesa cadastrada com sucesso." é exibida
+    When envio um formulário de saída manual válido
+    Then devo ver um toast ou notificação com a mensagem "Despesa cadastrada com sucesso."
+
+  #Scenario: Despesa excluída desaparece da lista em tempo real
+    Given que existe pelo menos uma despesa na lista "Últimas despesas"
+    When eu clico no botão de excluir (lixeira) dessa despesa
+    Then o registro deve desaparecer da lista imediatamente, sem recarregar a página
+    And os valores de "Despesas" e "SALDO" devem ser recalculados automaticamente
+
+  #Scenario: Valor negativo ou zero continua bloqueado mesmo com Firestore ativo
+    When preencho o campo "Título da despesa" com "Compra inválida"
+    When preencho o campo "Valor (R$)" com "-50,00"
+    And clico no botão "SALVAR DESPESA"
+    Then a requisição para o Firestore não deve ser enviada
+    And o botão "SALVAR DESPESA" deve permanecer inativo ou exibir uma mensagem de erro de validação no campo de valor

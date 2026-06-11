@@ -13,11 +13,11 @@ pipeline {
       }
     }
 
-    stage("Install") {
-      steps {
-        sh "npm ci"
-      }
+    stage('Install') {
+    steps {
+        bat 'npm install'
     }
+}
 
     stage("Unit Tests") {
       steps {
