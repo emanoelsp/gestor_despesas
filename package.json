@@ -12,7 +12,8 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --headless",
     "test:e2e": "start-server-and-test dev 3000 cypress:run",
-    "test:e2e:ci": "start-server-and-test start 3000 cypress:run"
+    "test:e2e:ci": "start-server-and-test start 3000 cypress:run",
+    "test:e2e:playwright": "playwright test"
   },
   "cypress-cucumber-preprocessor": {
     "stepDefinitions": "cypress/support/step_definitions/**/*.ts"
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^24.0.1",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -42,6 +44,7 @@
     "jest-environment-jsdom": "^30.3.0",
     "start-server-and-test": "^3.0.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-on": "^9.0.10"
   }
 }
